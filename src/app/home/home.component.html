@@ -1,0 +1,29 @@
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let data of datas">
+            <td (click)="onSelect(data)">{{data.id}}</td>
+            <td (click)="onClickName()">{{data.name}}</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>{{clickMessage}}</p>
+
+<h3>Instant Update</h3>
+<input #inputText (keyup)="0" />
+<p>{{inputText.value}}</p>
+
+<h3>Enter to update</h3>
+<input #inputTextEnter (keyup.enter)="onEnter(inputTextEnter.value)" />
+<p>{{values}}</p>
+
+<h3>Add New list</h3>
+<input #listName (keyup.enter)="addList(listName.value); listName.value=''" (blur)="addList(listName.value); listName.value=''" />
+<button (click)="addList(listName.value)">Add</button>
+<ul>
+    <li *ngFor="let item of items">{{item}}</li>
+</ul>
