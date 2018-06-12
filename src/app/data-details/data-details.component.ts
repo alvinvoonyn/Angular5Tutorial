@@ -8,9 +8,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DataDetailsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+    private dataId;
 
-  ngOnInit() {
-      this.dataId = parseInt(this.route.snapshot.paramMap.get('id'));
-  }
+    constructor(private route: ActivatedRoute) { }
+
+    ngOnInit() {
+        this.dataId = parseInt(this.route.snapshot.paramMap.get('id'));
+    }
 }

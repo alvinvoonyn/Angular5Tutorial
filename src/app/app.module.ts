@@ -10,6 +10,10 @@ import { DataDetailsComponent } from './data-details/data-details.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { environment } from '../environments/environment';
+
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -30,7 +34,11 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
         appRoutes,
         { enableTracing: true }
-    )
+    ),
+    FormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]
