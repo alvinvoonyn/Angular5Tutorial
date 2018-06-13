@@ -15,6 +15,8 @@ import { environment } from '../environments/environment';
 
 import { FormsModule } from '@angular/forms';
 
+import * as $ from 'jquery';
+
 const appRoutes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'songList', component: SongListComponent },

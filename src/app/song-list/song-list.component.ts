@@ -16,10 +16,9 @@ export class SongListComponent implements OnInit {
     private songs: Observable<any[]>;
     items = {};
     private uploadPercent;
-    private downloadURL: Observable<string>;
     isUploading = false;
     private songFile;
-    private playingSong;
+    private audioPlayer;
 
     item = {
         trackNo: "",
@@ -34,6 +33,7 @@ export class SongListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.audioPlayer = document.getElementById("audioPlayer");
     }
 
     selectSong(event) {
@@ -55,22 +55,24 @@ export class SongListComponent implements OnInit {
         task.snapshotChanges().pipe(
             finalize(
                 () => {
-                    this.downloadURL = fileRef.getDownloadURL();
-                    this.setSongInformation(item);
+
+                    fileRef.getDownloadURL().subscribe((url) => {
+                        this.setSongInformation(item, url);
+                    });
+
                 }
             )
         ).subscribe();
     }
 
-    setSongInformation(item) {
-        let downloadURL = this.downloadURL;
-        this.db.collection('songs').doc('Taeyeon').collection(item.album).doc(item.trackNo + '. ' + item.title).set({
+    setSongInformation(item, downloadUrl) {
+        this.db.collection('songs').doc('Taeyeon').collection(item.album).doc(item.trackNo + ' ' + item.title).set({
             trackNo: item.trackNo,
             title: item.title,
             artist: item.artist,
             album: item.album,
             year: item.year,
-            url: downloadURL
+            url: downloadUrl
         });
 
         this.isUploading = false;
@@ -78,16 +80,14 @@ export class SongListComponent implements OnInit {
 
     playSong(songURL) {
 
-        if (this.playingSong == null || this.playingSong.src != songURL) {
-            this.playingSong = new Audio (songURL);
+        if (this.audioPlayer.src != songURL) {
+            this.audioPlayer.src = songURL;
         }
 
-        this.playingSong.play();
+        this.audioPlayer.play();
     }
 
     pauseSong(songURL) {
-        if (this.playingSong != null) {
-            this.playingSong.pause();
-        }
+        this.audioPlayer.pause();
     }
 }
